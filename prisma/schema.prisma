@@ -1,0 +1,45 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  profile   UserProfile?
+}
+
+model UserProfile {
+  id                          Int      @id @default(autoincrement())
+  ageRange                    String
+  gender                      String
+  recentProblems              String[]
+  mainGoal                    String
+  feelingRecently             String
+  stressStartDate             String
+  emotionDuration             String
+  moodSwingFrequency          String
+  supportNeedFrequency        String
+  supportTypeInterest         String[]
+  mentalHealthChallenges      String[]
+  motivation                  String
+  soughtHelpBefore            Boolean
+  professionalHelpDuration    String?
+  supportKindLookingFor       String
+  socialConnectionImportance  String
+  learnAboutMentalHealth      Boolean
+  mentalHealthTopics          String[]
+  receiveReminders            Boolean
+  reminderFrequency           String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+}
